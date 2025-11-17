@@ -1,0 +1,35 @@
+# LAMMPS Input File (License CC BY 4.0)
+
+variable mu equal -0.1
+variable seed equal 87669
+
+include ../reference-files/header.lmp
+
+# 1) Initialization
+units real
+dimension 3
+atom_style full
+boundary p p p
+
+pair_style lj/cut ${cut_off}
+pair_modify shift yes
+
+read_data ../reference-files/empty-pore.data
+include ../reference-files/parameters.inc
+
+create_atoms 1 random 50 12345 NULL overlap 2.0 maxtry 50
+
+group fluid type 1
+group wall type 2
+neigh_modify exclude group wall wall
+
+compute tfluid fluid temp
+
+fix mygcmc fluid gcmc 10 1000 1000 1 29494 ${temp} ${mu} 0.01
+
+timestep ${dt}
+
+include ../reference-files/output.lmp
+
+run 30000
+write_data topology.data nocoeff

@@ -24,3 +24,7 @@ dependencies.d
 
 # LAMMPS stuffs
 **/*.lammpstrj
+
+# data folder 
+**/mu_*kcalmol
+**/pressure_*atom
