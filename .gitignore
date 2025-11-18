@@ -29,3 +29,8 @@ dependencies.d
 **/mu_*kcalmol
 **/pressure_*atom
 **/nb_*
+
+# Force isotherms to be sync
+!SlitPore-LJ/GCMC-chemical-potential/*.dat
+!SlitPore-LJ/GCMC-imposed-pressure/*.dat
+!SlitPore-LJ/Widom-fixed-number/*.dat
