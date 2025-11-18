@@ -28,3 +28,4 @@ dependencies.d
 # data folder 
 **/mu_*kcalmol
 **/pressure_*atom
+**/nb_*
