@@ -31,6 +31,4 @@ dependencies.d
 **/nb_*
 
 # Force isotherms to be sync
-!SlitPore-LJ/GCMC-chemical-potential/*.dat
-!SlitPore-LJ/GCMC-imposed-pressure/*.dat
-!SlitPore-LJ/Widom-fixed-number/*.dat
+!SlitPore-LJ/*/*.dat
