@@ -12,30 +12,13 @@ atom_style full
 boundary p p p
 
 pair_style lj/cut ${cut_off}
-pair_modify shift yes mix arithmetic
+pair_modify shift yes
 
 read_data ../reference-files/empty-pore.data
 include ../reference-files/parameters.inc
 
 create_atoms 1 random ${number} 12345 NULL overlap 2.0 maxtry 5
 
-group fluid type 1
-group wall type 2
-neigh_modify exclude group wall wall
-
-compute tfluid fluid temp
-
-fix mygcmc fluid gcmc 10 0 1000 1 29494 ${temp} -0.5 0.1
-
-timestep ${dt}
-
-include ../reference-files/output.lmp
-
-run 50000
-
-fix mywid fluid widom 100 500 1 ${seed} ${temp}
-fix myat7 all ave/time 100 5 500 f_mywid[1] f_mywid[2] f_mywid[3] file widom.dat
-
-run 50000
+run 0
 
 write_data topology.data nocoeff

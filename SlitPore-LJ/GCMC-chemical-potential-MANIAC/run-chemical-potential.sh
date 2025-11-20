@@ -6,7 +6,8 @@ lmp=/home/simon/Softwares/lammps-22Jul2025/src/lmp_mpi
 mus=(-4.0 -3.8 -3.6 -3.4 -3.2 -3.0)
 
 # Path to your reference input file
-ref_input="reference-files/input.lmp"
+ref_input="reference-files/input.maniac"
+ref_bash="reference-files/run.sh"
 
 # Loop over pressures
 for mu in "${mus[@]}"; do
@@ -18,13 +19,12 @@ for mu in "${mus[@]}"; do
 
     # Copy the input file
     cp "$ref_input" "$folder/"
+    cp "$ref_bash" "$folder/"
 
-    # Modify the pressure line
-    # Changes: variable pressure equal X
-    sed -i "s/^variable mu equal .*/variable mu equal ${mu}/" "$folder/input.lmp"
+    sed -i "s/^[[:space:]]*chemical_potential .*/  chemical_potential ${mu}/" "$folder/input.maniac"
 
     # Move into folder and run LAMMPS
     cd "$folder"
-        mpirun -np 4 ${lmp} -in input.lmp
+        ./run.sh
     cd ..
 done

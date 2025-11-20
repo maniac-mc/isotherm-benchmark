@@ -1,12 +1,14 @@
 #!/bin/bash
 
-lmp=/home/simon/Softwares/lammps-22Jul2025/src/lmp_mpi
+lmp=/home/simon/Softwares/lammps-22Jul2025/src/lmp_serial
 
 # List of pressures
 npart=(5 10 20 50 100 150 250)
 
 # Path to your reference input file
 ref_input="reference-files/input.lmp"
+ref_input2="reference-files/input.maniac"
+ref_bash="reference-files/run.sh"
 
 # Loop over pressures
 for nb in "${npart[@]}"; do
@@ -18,6 +20,8 @@ for nb in "${npart[@]}"; do
 
     # Copy the input file
     cp "$ref_input" "$folder/"
+    cp "$ref_input2" "$folder/"
+    cp "$ref_bash" "$folder/"
 
     # Modify the pressure line
     # Changes: variable pressure equal X
@@ -28,6 +32,8 @@ for nb in "${npart[@]}"; do
 
     # Move into folder and run LAMMPS
     cd "$folder"
-        mpirun -np 4 ${lmp} -in input.lmp
+        echo "Running LAMMPS for chemical potential ${nb} ..."
+        ${lmp} -in input.lmp
+        ./run.sh
     cd ..
 done
