@@ -23,8 +23,6 @@ for mu in "${mus[@]}"; do
 
     sed -i "s/^[[:space:]]*chemical_potential .*/  chemical_potential ${mu}/" "$folder/input.maniac"
 
-    # Move into folder and run LAMMPS
-    cd "$folder"
-        ./run.sh
-    cd ..
+    # Move into folder and run Maniac in background
+    (cd "$folder" && ./run.sh) &
 done

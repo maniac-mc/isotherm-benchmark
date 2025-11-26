@@ -8,6 +8,10 @@ mus=(-4.0 -3.8 -3.6 -3.4 -3.2 -3.0)
 # Path to your reference input file
 ref_input="reference-files/input.lmp"
 
+# Number of parallel jobs
+max_jobs=6   # change this depending on CPU/MPI resources
+job_count=0
+
 # Loop over pressures
 for mu in "${mus[@]}"; do
     folder="mu_${mu}kcalmol"
@@ -23,8 +27,16 @@ for mu in "${mus[@]}"; do
     # Changes: variable pressure equal X
     sed -i "s/^variable mu equal .*/variable mu equal ${mu}/" "$folder/input.lmp"
 
-    # Move into folder and run LAMMPS
-    cd "$folder"
-        mpirun -np 4 ${lmp} -in input.lmp
-    cd ..
+    # Run LAMMPS in the background, redirect output to log
+    (
+        cd "$folder"
+        echo "Running LAMMPS for mu=${mu} ..."
+        mpirun -np 4 ${lmp} -in input.lmp > lammps.log 2>&1
+    ) &
+
+    ((job_count++))
+    # Limit the number of parallel jobs
+    if (( job_count % max_jobs == 0 )); then
+        wait
+    fi
 done

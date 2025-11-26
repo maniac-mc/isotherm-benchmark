@@ -8,6 +8,10 @@ npart=(5 10 20 50 100 150 250)
 # Path to your reference input file
 ref_input="reference-files/input.lmp"
 
+# Number of parallel jobs
+max_jobs=6   # change this depending on CPU/MPI resources
+job_count=0
+
 # Loop over pressures
 for nb in "${npart[@]}"; do
     folder="nb_${nb}"
@@ -26,8 +30,17 @@ for nb in "${npart[@]}"; do
     seed=$((RANDOM + 10000))
     sed -i "s/^variable seed equal .*/variable seed equal ${seed}/" "$folder/input.lmp"
 
-    # Move into folder and run LAMMPS
-    cd "$folder"
-        mpirun -np 4 ${lmp} -in input.lmp
-    cd ..
+    # Run LAMMPS in the background, redirect output to log
+    (
+        cd "$folder"
+        echo "Running LAMMPS for mu=${mu} ..."
+        mpirun -np 4 ${lmp} -in input.lmp > lammps.log 2>&1
+    ) &
+
+    ((job_count++))
+    # Limit the number of parallel jobs
+    if (( job_count % max_jobs == 0 )); then
+        wait
+    fi
+
 done

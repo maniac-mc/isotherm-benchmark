@@ -7,4 +7,6 @@ inc="../reference-files/parameters.inc"
 outputs="outputs/"
 
 maniac="/home/simon/Git/Maniac/maniac-mc.github.io/build/maniac"
-$maniac -i "$input" -d "$data" -p "$inc" -o "$outputs"  ${res:+-r "$res"}
+
+# Silent run
+$maniac -i "$input" -d "$data" -p "$inc" -o "$outputs" ${res:+-r "$res"} > /dev/null 2>&1

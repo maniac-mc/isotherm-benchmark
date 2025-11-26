@@ -30,10 +30,11 @@ for nb in "${npart[@]}"; do
     seed=$((RANDOM + 10000))
     sed -i "s/^variable seed equal .*/variable seed equal ${seed}/" "$folder/input.lmp"
 
-    # Move into folder and run LAMMPS
-    cd "$folder"
-        echo "Running LAMMPS for chemical potential ${nb} ..."
-        ${lmp} -in input.lmp
-        ./run.sh
-    cd ..
+    # Move into folder and run LAMMPS (just to place molecule) then Maniac in the background
+    (
+        cd "$folder"
+        ${lmp} -in input.lmp > lammps.log 2>&1
+        ./run.sh > maniac.log 2>&1
+    ) &
+
 done
