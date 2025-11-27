@@ -32,3 +32,4 @@ dependencies.d
 
 # Force isotherms to be sync
 !SlitPore-LJ/*/*.dat
+!BulkCO2/*/*.dat
