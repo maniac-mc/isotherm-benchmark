@@ -1,6 +1,6 @@
 # LAMMPS input file (License CC BY 4.0)
 
-variable mu equal -0.1
+variable mu equal -8.6
 
 units real
 boundary p p p
@@ -30,9 +30,9 @@ create_atoms 0 random 100 3245 NULL mol co2mol 4585 overlap 2.0 maxtry 50
 group CO2 type 1 2
 
 variable tfac equal 5.0/3.0
-fix mygcmc CO2 gcmc 10 1000 0 0 29494 300 ${mu} 0.01 mol co2mol tfac_insert ${tfac}
+fix mygcmc CO2 gcmc 10 10 0 0 29494 300 ${mu} 0.01 mol co2mol full_energy tfac_insert ${tfac}
 
 include ../reference-files/output.lmp
 
-run 20000
+run 30000
 write_data topology.data nocoeff

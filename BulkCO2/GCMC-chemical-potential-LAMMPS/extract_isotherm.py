@@ -18,7 +18,7 @@ for folder in os.listdir(base): # Loop through folders
         mu_flt = np.float32(mu_str)
 
         # Read data file
-        nb_path = os.path.join(base, folder, "outputs/number_co2.dat")
+        nb_path = os.path.join(base, folder, "nb.dat")
         if not os.path.exists(nb_path):
             continue
 
