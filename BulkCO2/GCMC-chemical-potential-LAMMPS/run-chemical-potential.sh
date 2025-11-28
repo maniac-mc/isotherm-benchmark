@@ -1,6 +1,6 @@
 #!/bin/bash
 
-lmp=/home/simon/Softwares/lammps-10Sep2025/src/lmp_mpi
+lmp=/home/simon/Softwares/lammps-22Jul2025/src/lmp_mpi
 
 # List of pressures
 mus=(-8.6 -8.4 -8.2 -8.0 -7.8 -7.6)
