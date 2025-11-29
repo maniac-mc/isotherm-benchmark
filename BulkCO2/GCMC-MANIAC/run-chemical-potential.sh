@@ -1,9 +1,7 @@
 #!/bin/bash
 
-lmp=/home/simon/Softwares/lammps-22Jul2025/src/lmp_mpi
-
 # List of pressures
-mus=(-8.6 -8.4 -8.2 -8.0 -7.8 -7.6)
+mus=(-8.8 -8.6 -8.4 -8.2 -8.0 -7.8)
 
 # Path to your reference input file
 ref_input="reference-files/input.maniac"
@@ -24,5 +22,11 @@ for mu in "${mus[@]}"; do
     sed -i "s/^[[:space:]]*chemical_potential .*/  chemical_potential ${mu}/" "$folder/input.maniac"
 
     # Move into folder and run Maniac in background
-    (cd "$folder" && ./run.sh) &
+    (
+        cd "$folder"
+        ln -s ../../Shared/co2.mol .
+        ln -s ../../Shared/parameters.inc .
+        ln -s ../reference-files/topology.data .
+        ./run.sh    
+    ) &
 done
