@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Select LAMMPS
-lmp=$(../Shared/select-lammps.sh)
+lmp_serial=$(../Shared/select-lammps.sh)
 
 # List of pressures
 npart=(5 10 20 50 100 150 250)
@@ -37,7 +37,7 @@ for nb in "${npart[@]}"; do
         ln -s ../../Shared/co2.mol .
         ln -s ../../Shared/header.lmp .
         ln -s ../../Shared/parameters.inc .
-        ${lmp} -in input.lmp > lammps.log 2>&1
+        ${lmp_serial} -in input.lmp > lammps.log 2>&1
         ./run.sh > maniac.log 2>&1
     ) &
 

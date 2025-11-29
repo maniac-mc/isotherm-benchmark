@@ -1,0 +1,29 @@
+# LAMMPS Input File (License CC BY 4.0)
+
+variable number equal 50
+variable seed equal 87669
+variable mu equal -6.0
+variable temp equal 300.0
+
+include header.lmp
+
+region box block -20 20 -20 20 -20 20
+create_box 2 box &
+    bond/types 1 &
+    angle/types 1 &
+    extra/bond/per/atom 4 &
+    extra/angle/per/atom 4 &
+    extra/special/per/atom 4
+
+include parameters.inc
+molecule co2mol co2.mol
+
+create_atoms 0 random ${number} ${seed} NULL mol co2mol 4585 overlap 2.0 maxtry 50
+
+fix mynvt all nvt temp ${temp} ${temp} 100.0
+
+include gcmc.lmp
+
+run 100000
+
+write_data topology.data nocoeff
