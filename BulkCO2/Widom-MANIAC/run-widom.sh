@@ -1,6 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-lmp=/home/simon/Softwares/lammps-22Jul2025/src/lmp_serial
+# Select LAMMPS
+lmp=$(../Shared/select-lammps.sh)
 
 # List of pressures
 npart=(5 10 20 50 100 150 250)
@@ -33,6 +34,9 @@ for nb in "${npart[@]}"; do
     # Move into folder and run LAMMPS (just to place molecule) then Maniac in the background
     (
         cd "$folder"
+        ln -s ../../Shared/co2.mol .
+        ln -s ../../Shared/header.lmp .
+        ln -s ../../Shared/parameters.inc .
         ${lmp} -in input.lmp > lammps.log 2>&1
         ./run.sh > maniac.log 2>&1
     ) &

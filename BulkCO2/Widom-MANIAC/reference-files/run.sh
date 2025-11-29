@@ -2,8 +2,8 @@
 set -e
 
 input="input.maniac"
-data="../../Shared/topology.data"
-inc="../../Shared//parameters.inc"
+data="topology.data"
+inc="parameters.inc"
 res="../../Reservoir/topology.data"
 outputs="outputs/"
 

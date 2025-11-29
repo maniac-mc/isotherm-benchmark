@@ -20,12 +20,6 @@ molecule co2mol co2.mol
 
 create_atoms 0 random ${number} ${seed} NULL mol co2mol 4585 overlap 2.0 maxtry 50
 
-fix mywid all widom 100 500 1 ${seed} ${temp}
-
-fix mynvt all nvt temp ${temp} ${temp} 100.0
-
-include output.lmp
-
-run 50000
+run 0
 
 write_data topology.data nocoeff
