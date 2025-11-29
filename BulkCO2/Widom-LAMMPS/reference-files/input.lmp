@@ -20,7 +20,8 @@ molecule co2mol co2.mol
 
 create_atoms 0 random ${number} ${seed} NULL mol co2mol 4585 overlap 2.0 maxtry 50
 
-fix mynvt all nvt temp ${temp} ${temp} 100.0
+fix mynve all nve
+fix mylan all langevin ${temp} ${temp} 500.0 ${seed}
 
 include widom.lmp
 
