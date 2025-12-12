@@ -1,16 +1,15 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-lmp=/home/simon/Softwares/lammps-22Jul2025/src/lmp_mpi
+# Select LAMMPS
+lmp_serial=$(../Shared/select-lammps.sh)
 
 # List of pressures
-npart=(5 10 20 50 100 150 250)
+npart=(1 2 6 10 20 50)
 
 # Path to your reference input file
 ref_input="reference-files/input.lmp"
-
-# Number of parallel jobs
-max_jobs=6   # change this depending on CPU/MPI resources
-job_count=0
+ref_input2="reference-files/input.maniac"
+ref_bash="reference-files/run.sh"
 
 # Loop over pressures
 for nb in "${npart[@]}"; do
@@ -22,6 +21,8 @@ for nb in "${npart[@]}"; do
 
     # Copy the input file
     cp "$ref_input" "$folder/"
+    cp "$ref_input2" "$folder/"
+    cp "$ref_bash" "$folder/"
 
     # Modify the pressure line
     # Changes: variable pressure equal X
@@ -30,17 +31,14 @@ for nb in "${npart[@]}"; do
     seed=$((RANDOM + 10000))
     sed -i "s/^variable seed equal .*/variable seed equal ${seed}/" "$folder/input.lmp"
 
-    # Run LAMMPS in the background, redirect output to log
+    # Move into folder and run LAMMPS (just to place molecule) then Maniac in the background
     (
         cd "$folder"
-        echo "Running LAMMPS for mu=${mu} ..."
-        mpirun -np 4 ${lmp} -in input.lmp > lammps.log 2>&1
+        ln -s ../../Shared/empty-pore.data .
+        ln -s ../../Shared/header.lmp .
+        ln -s ../../Shared/parameters.inc .
+        ${lmp_serial} -in input.lmp > lammps.log 2>&1
+        ./run.sh > maniac.log 2>&1
     ) &
-
-    ((job_count++))
-    # Limit the number of parallel jobs
-    if (( job_count % max_jobs == 0 )); then
-        wait
-    fi
 
 done

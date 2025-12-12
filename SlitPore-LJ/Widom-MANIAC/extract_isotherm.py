@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import os
+import glob
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -18,9 +19,13 @@ for folder in os.listdir(base): # Loop through folders
         nb_flt = np.float32(nb_str)
 
         # Read data file
-        widom_path = os.path.join(base, folder, "outputs/widom_fluid.dat")
-        if not os.path.exists(widom_path):
-            continue
+        pattern = os.path.join(base, folder, "outputs", "widom_*.dat")
+        files = glob.glob(pattern)
+
+        if not files:
+            continue 
+
+        widom_path = files[0]
 
         # Read last non-empty line
         step, muex, deltaU, volume = np.loadtxt(widom_path).T
