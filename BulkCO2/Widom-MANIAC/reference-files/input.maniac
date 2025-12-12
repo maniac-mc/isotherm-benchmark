@@ -2,7 +2,7 @@
 
 # Generic parameters
 nb_block 500                      # number of MC block
-nb_step 500                      # Number of MC step
+nb_step 2000                      # Number of MC step
 temperature	300                 # Temperature in Kelvin
 
 # Electrostatic interactions
@@ -14,8 +14,8 @@ translation_step 1              # Translational displacement (angstrom)
 rotation_step_angle 0.685       # Rotational move (radian)
 recalibrate_moves true          # Enable automatic recalibration of move steps (true/false)
 
-translation_proba 0.0           # Probability of attempting a translation move
-rotation_proba 0.0              # Probability of attempting a rotation move
+translation_proba 0.4           # Probability of attempting a translation move
+rotation_proba 0.4              # Probability of attempting a rotation move
 widom_proba 0.2    # Probability of attempting an insertion or a deletion
 
 # Define residues composition and activity
