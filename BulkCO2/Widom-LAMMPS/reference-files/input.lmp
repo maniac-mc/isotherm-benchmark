@@ -21,10 +21,10 @@ molecule co2mol co2.mol
 create_atoms 0 random ${number} ${seed} NULL mol co2mol 4585 overlap 2.0 maxtry 50
 
 fix mynve all nve
-fix mylan all langevin ${temp} ${temp} 500.0 ${seed}
+fix mylan all langevin ${temp} ${temp} 1000.0 ${seed}
 
 include widom.lmp
 
-run 50000
+run 200000
 
 write_data topology.data nocoeff

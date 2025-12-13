@@ -4,7 +4,7 @@
 lmp_serial=$(../Shared/select-lammps.sh)
 
 # List of pressures
-npart=(1 2 6 10 20 50)
+npart=(1 2 4 8 16 32)
 
 # Path to your reference input file
 ref_input="reference-files/input.lmp"

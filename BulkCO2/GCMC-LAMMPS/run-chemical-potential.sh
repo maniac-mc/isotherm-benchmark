@@ -3,8 +3,8 @@
 # Select LAMMPS
 lmp_serial=$(../Shared/select-lammps.sh)
 
-# List of pressures
-mus=(-8.8 -8.6 -8.4 -8.2 -8.0 -7.8)
+# List of chemical potential
+mus=(-10.0 -9.5 -9.0 -8.5 -8.0 -7.5 -7.0)
 
 # Path to your reference input file
 ref_input="reference-files/input.lmp"
@@ -13,7 +13,7 @@ ref_input="reference-files/input.lmp"
 max_jobs=10   # change this depending on CPU/MPI resources
 job_count=0
 
-# Loop over pressures
+# Loop over chemical potential
 for mu in "${mus[@]}"; do
 
     folder="mu_${mu}kcalmol"
