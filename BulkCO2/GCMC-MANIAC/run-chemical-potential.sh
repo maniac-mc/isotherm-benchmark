@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # List of chemical potential
-mus=(-10.0 -9.5 -9.0 -8.5 -8.0 -7.5 -7.0)
+mus=(-10.0 -9.5 -9.0 -8.5 -8.0)
 
 # Path to your reference input file
 ref_input="reference-files/input.maniac"

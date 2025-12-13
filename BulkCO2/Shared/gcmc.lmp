@@ -12,7 +12,7 @@ variable n_fluid equal count(myfluid)
 fix myat3 all ave/time 100 5 500 v_n_fluid file number.dat
 
 variable tfac equal 5.0/3.0
-fix mygcmc all gcmc 10 10 0 0 ${seed} ${temp} ${mu} 0.01 mol co2mol full_energy tfac_insert ${tfac}
+fix mygcmc all gcmc 10 1 0 0 ${seed} ${temp} ${mu} 0.01 mol co2mol full_energy tfac_insert ${tfac}
 
 thermo 1000
 dump mydmp all atom 1000 dump.lammpstrj
