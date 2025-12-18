@@ -9,4 +9,4 @@ atom_style full
 boundary p p p
 
 pair_style lj/cut ${cut_off}
-pair_modify shift yes
+# pair_modify shift yes
