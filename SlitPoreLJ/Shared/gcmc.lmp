@@ -11,8 +11,7 @@ group myfluid dynamic all var myfluid
 variable n_fluid equal count(myfluid)
 fix myat3 all ave/time 100 5 500 v_n_fluid file number.dat
 
-fix mywid all widom 100 500 1 ${seed} ${temp}
-fix myat4 all ave/time 100 10 1000 f_mywid[1] f_mywid[2] f_mywid[3] file widom.dat
+fix mygcmc fluid gcmc 10 1 1 1 ${seed} ${temp} ${mu} 0.01 full_energy
 
 thermo 1000
 dump mydmp all atom 1000 dump.lammpstrj

@@ -1,17 +1,19 @@
 # LAMMPS Input File (License CC BY 4.0)
 
-variable number equal 50
 variable seed equal 87669
 variable mu equal -6.0
-variable temp equal 300.0
 
 include header.lmp
 
-read_data empty-pore.data
+read_data topology.data
+
 include parameters.inc
 
-create_atoms 1 random ${number} ${seed} NULL overlap 2.0 maxtry 5
+group fluid type 1
+fix mynvt fluid nvt temp ${temp} ${temp} 100.0
 
-run 0
+include gcmc.lmp
+
+run 100000
 
 write_data topology.data nocoeff

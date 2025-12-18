@@ -3,19 +3,20 @@
 # Select LAMMPS
 lmp_serial=$(../Shared/select-lammps.sh)
 
-# List of pressures
-npart=(1 2 6 10 20 50)
+# List of chemical potential
+mus=(-5.0 -4.5 -4.0 -3.5 -3.0)
 
 # Path to your reference input file
 ref_input="reference-files/input.lmp"
 
 # Number of parallel jobs
-max_jobs=10
+max_jobs=10   # change this depending on CPU/MPI resources
 job_count=0
 
-# Loop over pressures
-for nb in "${npart[@]}"; do
-    folder="nb_${nb}"
+# Loop over chemical potential
+for mu in "${mus[@]}"; do
+
+    folder="mu_${mu}kcalmol"
     echo "Creating folder: $folder"
 
     # Make directory
@@ -25,19 +26,15 @@ for nb in "${npart[@]}"; do
     cp "$ref_input" "$folder/"
 
     # Modify the pressure line
-    # Changes: variable pressure equal X
-    sed -i "s/^variable number equal .*/variable number equal ${nb}/" "$folder/input.lmp"
-    # Generate a random seed between 10000 and 99999
-    seed=$((RANDOM + 10000))
-    sed -i "s/^variable seed equal .*/variable seed equal ${seed}/" "$folder/input.lmp"
+    sed -i "s/^variable mu equal .*/variable mu equal ${mu}/" "$folder/input.lmp"
 
     # Run LAMMPS in the background, redirect output to log
     (
         cd "$folder"
         ln -s ../../Shared/header.lmp .
+        cp ../reference-files/topology.data .
         ln -s ../../Shared/parameters.inc .
-        ln -s ../../Shared/empty-pore.data .
-        ln -s ../../Shared/widom.lmp .
+        ln -s ../../Shared/gcmc.lmp .
         echo "Running LAMMPS for mu=${mu} ..."
         ${lmp_serial} -in input.lmp > lammps.log 2>&1
     ) &
@@ -47,5 +44,4 @@ for nb in "${npart[@]}"; do
     if (( job_count % max_jobs == 0 )); then
         wait
     fi
-
 done

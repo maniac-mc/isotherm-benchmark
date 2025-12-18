@@ -1,15 +1,13 @@
 #!/bin/bash
 
-lmp=/home/simon/Softwares/lammps-22Jul2025/src/lmp_mpi
-
-# List of pressures
-mus=(-4.0 -3.8 -3.6 -3.4 -3.2 -3.0)
+# List of chemical potential
+mus=(-5.0 -4.5 -4.0 -3.5 -3.0)
 
 # Path to your reference input file
 ref_input="reference-files/input.maniac"
 ref_bash="reference-files/run.sh"
 
-# Loop over pressures
+# Loop over chemical potential
 for mu in "${mus[@]}"; do
     folder="mu_${mu}kcalmol"
     echo "Creating folder: $folder"
@@ -24,5 +22,10 @@ for mu in "${mus[@]}"; do
     sed -i "s/^[[:space:]]*chemical_potential .*/  chemical_potential ${mu}/" "$folder/input.maniac"
 
     # Move into folder and run Maniac in background
-    (cd "$folder" && ./run.sh) &
+    (
+        cd "$folder"
+        ln -s ../../Shared/parameters.inc .
+        ln -s ../reference-files/topology.data .
+        ./run.sh    
+    ) &
 done

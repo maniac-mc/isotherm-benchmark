@@ -1,7 +1,7 @@
 # LAMMPS Input File (License CC BY 4.0)
 
 variable temp equal 84 # K
-variable cut_off equal 17
+variable cut_off equal 9
 
 units real
 dimension 3
