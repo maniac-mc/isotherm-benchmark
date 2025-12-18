@@ -1,0 +1,17 @@
+# LAMMPS Input File (License CC BY 4.0)
+
+variable pressure equal press
+fix myat1 all ave/time 100 5 500 v_pressure file pressure.dat
+
+variable etotal equal etotal
+fix myat2 all ave/time 100 5 500 v_etotal file etotal.dat
+
+variable myfluid atom "type==1"
+group myfluid dynamic all var myfluid
+variable n_fluid equal count(myfluid)
+fix myat3 all ave/time 100 5 500 v_n_fluid file number.dat
+
+fix mygcmc all gcmc 10 1 0 1 ${seed} ${temp} ${mu} 0.01 full_energy
+
+thermo 1000
+dump mydmp all atom 1000 dump.lammpstrj

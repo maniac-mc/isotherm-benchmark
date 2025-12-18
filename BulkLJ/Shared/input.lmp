@@ -1,0 +1,23 @@
+# LAMMPS Input File (License CC BY 4.0)
+
+variable number equal 50
+variable seed equal 87669
+variable mu equal -6.0
+variable temp equal 84.0
+
+include header.lmp
+
+region box block -20 20 -20 20 -20 20
+create_box 1 box
+
+include parameters.inc
+
+create_atoms 1 random ${number} ${seed} NULL overlap 2.0 maxtry 50
+
+fix mynvt all nvt temp ${temp} ${temp} 100.0
+
+include widom.lmp
+
+run 50000
+
+write_data topology.data nocoeff

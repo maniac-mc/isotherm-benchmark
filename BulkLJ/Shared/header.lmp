@@ -1,0 +1,10 @@
+# LAMMPS Input File (License CC BY 4.0)
+
+units real
+dimension 3
+boundary p p p
+
+atom_style full
+
+pair_style lj/cut 9
+pair_modify mix arithmetic
